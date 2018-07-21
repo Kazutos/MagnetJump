@@ -4,6 +4,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 /**
  *
@@ -16,42 +18,86 @@ public class Server {
      */
     public static void main(String[] args) throws IOException {
             try {
+                String[] players = new String[4];
                 
-                System.out.println("HELLO");
+                System.out.println("Server started...");
+                
+                // Socket to accept players and send them controllers //
                 ServerSocket playersSocket = new ServerSocket(8080);
                 
-                Socket p1 = playersSocket.accept();
-                PrintWriter p1_out = new PrintWriter(p1.getOutputStream(), true);
-                BufferedReader p1_in = new BufferedReader(new InputStreamReader(p1.getInputStream()));
                 
-                String p1_req= "hi";
-                while (p1_req.length() > 0) {
-                    p1_req = p1_in.readLine();
-                    System.out.println(p1_req);
+                // Accept players and send them Hi message //
+                for (int i = 0; i < 2;) {
+                    Socket player = playersSocket.accept();
+                    
+                    
+                    // If its already a registered player, just give him the page again //
+                    if (player.getInetAddress().toString().equals(players[0]) || player.getInetAddress().toString().equals(players[1]) || player.getInetAddress().toString().equals(players[2])) {
+                        PrintWriter p1_out = new PrintWriter(player.getOutputStream(), true);
+
+                        System.out.println("REPEATED REQUEST" + i);
+                        String resp = "HTTP/1.1 200 OK\r\n\r\nHi";
+                        p1_out.print(resp);
+                        p1_out.close();
+                        player.close();
+                    } else {
+                        PrintWriter p1_out = new PrintWriter(player.getOutputStream(), true);
+
+                        System.out.println("Connection accepted from: " + player.getInetAddress().toString());
+                        players[i] = player.getInetAddress().toString();
+                        i++;
+
+                        // Send the AJAX controller file to the player //
+                        String ajaxFile = new String(Files.readAllBytes(Paths.get("ajax.html")));
+                        
+                        String resp = "HTTP/1.1 200 OK\r\nContent-Type: text/html; charset=utf-8\r\n\r\nHi, You are player #" + i + "\n\n\n" + ajaxFile;
+                        
+                        p1_out.print(resp);
+                        p1_out.close();
+                        player.close();
+                    }
                 }
                 
-                // SEND THE WEBPAGE //
-                String resp = "HTTP/1.1 200 OK\r\n\r\nHi";
-                System.out.println(resp);
-                p1_out.print(resp);
-                p1_out.close();
-                p1_in.close();
-                p1.close();
+                playersSocket.close();
                 
-                Socket p2 = playersSocket.accept();
-                PrintWriter p2_out = new PrintWriter(p2.getOutputStream(), true);
+                System.out.println("All players are registered, the game has started!!");
                 
-                Socket p3 = playersSocket.accept();
-                PrintWriter p3_out = new PrintWriter(p3.getOutputStream(), true);
                 
-                Socket p4 = playersSocket.accept();
-                PrintWriter p4_out = new PrintWriter(p4.getOutputStream(), true);
+                // Get AJAX messages for controls from the players, use previously stored IPs in 
+                // 'players' array to check which player sent the request. 
+                // Multithreads may be needed if requests are slow
+                ServerSocket controlsSocket = new ServerSocket(8080);
                 
                 while (true) {
-                    ServerSocket controlsSocket = new ServerSocket(80);
+                    // One of the players connects to the server //
+                    Socket client = controlsSocket.accept();
+                    BufferedReader client_rd = new BufferedReader(new InputStreamReader(client.getInputStream()));
+                    PrintWriter client_wr = new PrintWriter(client.getOutputStream(), true);
+                    
+                    String temp = client_rd.readLine();
+                    client_wr.println("HTTP/1.1 200 OK\r\nContent-Length: 3\r\nContent-Type: text/plain\r\n\r\nSUP");
+                    while (temp != null) {
+                        if (temp.startsWith("GET")) break;
+                        if (temp.startsWith("control")) {
+                            for (int i = 0; i < 4; i++) {
+                                if (client.getInetAddress().toString().equals(players[i])) {
+                                    int playerNum = i+1;
+                                    System.out.print("Player " + playerNum + " sent ");
+                                }
+                            }
+                            System.out.println(temp);
+                            
+                        }
+                        
+                        temp = client_rd.readLine();
+                    }
+                        
+                    client_wr.close();
+                    client_rd.close();
+                    client.close();
                 }
             } catch (Exception e) {
-                System.out.println("ERROR");
+                System.out.println("ERROR: " + e.getMessage());
             }
     }
     
