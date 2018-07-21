@@ -1,6 +1,7 @@
 package model;
 
 import static model.BarPosition.VERTICAL;
+import static model.UnitType.BAR;
 
 public class Bar {
     private Unit initial;
@@ -12,7 +13,7 @@ public class Bar {
         if (size < 1) {
             throw new IllegalArgumentException("A bar must have at least one unit!");
         }
-        this.initial = new Unit(x, y);
+        this.initial = new Unit(x, y, BAR);
         this.size = size;
         this.position = position;
 
@@ -25,11 +26,11 @@ public class Bar {
 
         if (VERTICAL.equals(position)) {
             for (int i = 1; i < size; i++) {
-                units[i] = new Unit(initial.x(), initial.y() + i);
+                units[i] = new Unit(initial.x(), initial.y() + i, BAR);
             }
         } else {
             for (int i = 1; i < size; i++) {
-                units[i] = new Unit(initial.x() + i, initial.y());
+                units[i] = new Unit(initial.x() + i, initial.y(), BAR);
             }
         }
     }

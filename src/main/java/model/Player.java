@@ -1,17 +1,17 @@
 package model;
 
-import java.util.UUID;
+import static model.GameEngine.NEXT_PLAYER_ID;
+import static model.UnitType.PLAYER;
 
 public class Player {
-    private String id;
+    private int id;
     private Unit unit;
     private final String colour;
 
 
     public Player(int x, int y, String colour) {
-        this.id = UUID.randomUUID().toString();
-        this.unit = new Unit(x, y);
-        this.unit.setMagnets(new int[]{1, 1, 1, 1});
+        this.id = NEXT_PLAYER_ID++;
+        this.unit = new Unit(x, y, new int[]{1, 1, 1, 1}, PLAYER);
         this.colour = colour;
     }
 
@@ -22,6 +22,10 @@ public class Player {
 
     public int x() {
         return unit.x();
+    }
+
+    public int y() {
+        return unit.y();
     }
 
     public void up() {
@@ -40,21 +44,11 @@ public class Player {
         unit.setX(unit.x() - 1);
     }
 
-    //TODO restrict?
-    public void setX(int x) {
-        unit.setX(x);
+    public Unit getUnit() {
+        return unit;
     }
 
-    public int y() {
-        return unit.y();
-    }
-
-    // TODO restrict?
-    public void setY(int y) {
-        unit.setY(y);
-    }
-
-    public String getId() {
+    public int getId() {
         return id;
     }
 

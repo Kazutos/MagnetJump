@@ -2,6 +2,7 @@ package model;
 
 import org.junit.Test;
 
+import static model.UnitType.BAR;
 import static org.junit.Assert.assertEquals;
 
 public class
@@ -13,11 +14,11 @@ BarTest {
         Unit[] units = bar.getUnits();
 
         assertEquals(5, units.length);
-        assertEquals(units[0], new Unit(0, 0));
-        assertEquals(units[1], new Unit(1, 0));
-        assertEquals(units[2], new Unit(2, 0));
-        assertEquals(units[3], new Unit(3, 0));
-        assertEquals(units[4], new Unit(4, 0));
+        assertEquals(units[0], new Unit(0, 0, BAR));
+        assertEquals(units[1], new Unit(1, 0, BAR));
+        assertEquals(units[2], new Unit(2, 0, BAR));
+        assertEquals(units[3], new Unit(3, 0, BAR));
+        assertEquals(units[4], new Unit(4, 0, BAR));
     }
 
 
@@ -27,10 +28,10 @@ BarTest {
         Unit[] units = bar.getUnits();
 
         assertEquals(4, units.length);
-        assertEquals(units[0], new Unit(4, 5));
-        assertEquals(units[1], new Unit(4, 6));
-        assertEquals(units[2], new Unit(4, 7));
-        assertEquals(units[3], new Unit(4, 8));
+        assertEquals(units[0], new Unit(4, 5, BAR));
+        assertEquals(units[1], new Unit(4, 6, BAR));
+        assertEquals(units[2], new Unit(4, 7, BAR));
+        assertEquals(units[3], new Unit(4, 8, BAR));
     }
 
 }

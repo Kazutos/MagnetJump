@@ -1,22 +1,27 @@
 package model;
 
+import static model.UnitType.SPACE;
+
 public class Unit {
     private int x;
     private int y;
 
     // A 4-integer array representing the magnetic properties of the left, right, bottom and top edges ( in this exact order) of the unit.
     private int[] magnets;
+    private UnitType type;
 
-    public Unit(int x, int y) {
+    public Unit(int x, int y, UnitType type) {
         this.x = x;
         this.y = y;
         this.magnets = new int[]{0, 0, 0, 0};
+        this.type = SPACE;
     }
 
-    public Unit(int x, int y, int[] magnets) {
+    public Unit(int x, int y, int[] magnets, UnitType type) {
         this.x = x;
         this.y = y;
         setMagnets(magnets);
+        this.type = SPACE;
     }
 
     public int x() {
@@ -41,6 +46,14 @@ public class Unit {
 
     public void setMagnets(int[] magnets) {
         this.magnets = magnets;
+    }
+
+    public UnitType getType() {
+        return type;
+    }
+
+    public void setType(UnitType type) {
+        this.type = type;
     }
 
     @Override
