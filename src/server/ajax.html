@@ -5,26 +5,71 @@
 <script>
 $(document).ready(function(){
     $("#left").click(function(){
-        $.post("http://127.0.0.1:8080","control left");
+        $.ajax({
+            url: "http://10.4.233.53:8080",
+            type: "POST",
+            headers: {
+                    'Access-Control-Allow-Origin': '*'
+            },
+            data: "control left",
+            success: function (response) {},
+            error: function(xhr, ajaxOptions, thrownError){
+                    alert(xhr.responseText);
+            }
+        });
     });
 
     $("#right").click(function(){
-        $.post("http://127.0.0.1:8080","control right");
+                $.ajax({
+            url: "http://10.4.233.53:8080",
+            type: "POST",
+            headers: {
+                    'Access-Control-Allow-Origin': '*'
+            },
+            data: "control right",
+            success: function (response) {},
+            error: function(xhr, ajaxOptions, thrownError){
+                    alert(xhr.responseText);
+            }
+        });
     });
 
     $("#up").click(function(){
-        $.post("http://127.0.0.1:8080","control up");
+                $.ajax({
+            url: "http://10.4.233.53:8080",
+            type: "POST",
+            headers: {
+                    'Access-Control-Allow-Origin': '*'
+            },
+            data: "control up",
+            success: function (response) {},
+            error: function(xhr, ajaxOptions, thrownError){
+                    alert(xhr.responseText);
+            }
+        });
     });
 
     $("#down").click(function(){
-        $.post("http://127.0.0.1:8080","control down");
+        $.ajax({
+            url: "http://10.4.233.53:8080",
+            type: "POST",
+            headers: {
+                    'Access-Control-Allow-Origin': '*'
+            },
+            data: "control down",
+            dataType: "text",
+            success: function (response) {},
+            error: function(xhr, ajaxOptions, thrownError){
+                    alert(xhr.responseText);
+            }
+        });
     });
 });
 </script>
 </head>
 <body>
 
-<div id="div1"><h2>Let jQuery AJAX Change This Text</h2></div>
+<div id="div1"><h2>3</h2></div>
 
 <button id="left">left</button>
 <button id="right">right</button>

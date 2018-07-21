@@ -96,7 +96,7 @@ public class Server {
                     client_rd.close();
                     client.close();
                 }
-            } catch (Exception e) {
+            } catch (IOException e) {
                 System.out.println("ERROR: " + e.getMessage());
             }
     }
