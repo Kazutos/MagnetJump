@@ -1,4 +1,4 @@
-package mj;
+package model;
 
 public enum BarPosition {
     HORIZONTAL(0),

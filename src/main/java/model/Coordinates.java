@@ -1,4 +1,4 @@
-package mj;
+package model;
 
 public class Coordinates {
     private int x;

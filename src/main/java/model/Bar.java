@@ -1,4 +1,4 @@
-package mj;
+package model;
 
 public class Bar {
     private Coordinates initial;
