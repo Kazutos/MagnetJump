@@ -3,16 +3,16 @@ package model;
 import static model.BarPosition.VERTICAL;
 
 public class Bar {
-    private Coordinates initial;
+    private Unit initial;
     private int size;
     private BarPosition position;
-    private Coordinates[] units;
+    private Unit[] units;
 
-    public Bar(int initX, int initY, int size, BarPosition position) {
+    public Bar(int x, int y, int size, BarPosition position) {
         if (size < 1) {
             throw new IllegalArgumentException("A bar must have at least one unit!");
         }
-        this.initial = new Coordinates(initX, initY);
+        this.initial = new Unit(x, y);
         this.size = size;
         this.position = position;
 
@@ -20,21 +20,21 @@ public class Bar {
     }
 
     private void initializeUnits() {
-        this.units = new Coordinates[size];
+        this.units = new Unit[size];
         units[0] = initial;
 
         if (VERTICAL.equals(position)) {
             for (int i = 1; i < size; i++) {
-                units[i] = new Coordinates(initial.x(), initial.y() + i);
+                units[i] = new Unit(initial.x(), initial.y() + i);
             }
         } else {
             for (int i = 1; i < size; i++) {
-                units[i] = new Coordinates(initial.x() + i, initial.y());
+                units[i] = new Unit(initial.x() + i, initial.y());
             }
         }
     }
 
-    public Coordinates[] getUnits() {
+    public Unit[] getUnits() {
         return units;
     }
 }

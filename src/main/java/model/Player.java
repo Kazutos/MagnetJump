@@ -4,61 +4,54 @@ import java.util.UUID;
 
 public class Player {
     private String id;
-    private Coordinates coordinates;
+    private Unit unit;
     private final String colour;
 
 
     public Player(int x, int y, String colour) {
         this.id = UUID.randomUUID().toString();
-        this.coordinates = new Coordinates(x, y);
+        this.unit = new Unit(x, y);
+        this.unit.setMagnets(new int[]{1, 1, 1, 1});
         this.colour = colour;
     }
 
-    public Player(Coordinates coordinates, String colour) {
-        this.coordinates = coordinates;
+    public Player(Unit unit, String colour) {
+        this.unit = unit;
         this.colour = colour;
     }
 
     public int x() {
-        return coordinates.x();
+        return unit.x();
     }
 
-    public void up(int upMost) {
-        if (coordinates.y() < upMost) {
-            coordinates.setY(coordinates.y() + 1);
-        }
+    public void up() {
+        unit.setY(unit.y() + 1);
     }
 
-    public void down(int downMost) {
-        if (coordinates.y() > downMost) {
-            coordinates.setY(coordinates.y() - 1);
-        }
+    public void down() {
+        unit.setY(unit.y() - 1);
     }
 
-    public void right(int rightMost) {
-        if (coordinates.x() < rightMost) {
-            coordinates.setX(coordinates.x() + 1);
-        }
+    public void right() {
+        unit.setX(unit.x() + 1);
     }
 
-    public void left(int leftMost) {
-        if (coordinates.x() > leftMost) {
-            coordinates.setX(coordinates.x() - 1);
-        }
+    public void left() {
+        unit.setX(unit.x() - 1);
     }
 
     //TODO restrict?
     public void setX(int x) {
-        coordinates.setX(x);
+        unit.setX(x);
     }
 
     public int y() {
-        return coordinates.y();
+        return unit.y();
     }
 
     // TODO restrict?
     public void setY(int y) {
-        coordinates.setY(y);
+        unit.setY(y);
     }
 
     public String getId() {

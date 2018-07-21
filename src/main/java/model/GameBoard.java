@@ -1,7 +1,5 @@
 package model;
 
-import util.Movement;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -15,6 +13,9 @@ public class GameBoard {
     private List<Player> players;
 
     public GameBoard() {
+        this.width = ThreadLocalRandom.current().nextInt(10, 30);
+        this.height = ThreadLocalRandom.current().nextInt(10, 30);
+        this.occupationMatrix = new int[height][width];
     }
 
     public GameBoard(int width, int height) {
@@ -27,9 +28,6 @@ public class GameBoard {
     // TODO improve
     public List<Bar> generateDimensionsAndBars() {
         List<Bar> result = new ArrayList<>();
-        this.width = ThreadLocalRandom.current().nextInt(10, 30);
-        this.height = ThreadLocalRandom.current().nextInt(10, 30);
-        this.occupationMatrix = new int[height][width];
 
         Bar bar1 = new Bar(0, 5, 4, BarPosition.HORIZONTAL);
         Bar bar2 = new Bar(4, 7, 3, BarPosition.VERTICAL);
@@ -58,7 +56,7 @@ public class GameBoard {
     public void setBars(List<Bar> bars) {
         this.bars = bars;
         for (Bar bar : bars) {
-            for (Coordinates coordinate : bar.getUnits()) {
+            for (Unit coordinate : bar.getUnits()) {
                 occupationMatrix[coordinate.y()][coordinate.x()] = 1;
             }
         }
@@ -72,35 +70,44 @@ public class GameBoard {
         }
     }
 
-    public void movePlayer(String playerId, Movement movement) {
+    public void movePlayer(String playerId, Movement movement, int times) {
         Player player = findPlayer(playerId);
         if (player == null) {
             return;
         }
 
-        removePlayerDataFromMatrix(player);
-
-        switch (movement) {
-            case UP:
-                player.up(height - 1);
-                break;
-            case DOWN:
-                player.down(0);
-                break;
-            case LEFT:
-                player.left(0);
-                break;
-            case RIGHT:
-                player.right(width - 1);
-                break;
-            case JUMP:
-                //TODO
-                break;
-            case MAGNET:
-                //TODO
-                break;
+        while (times-- > 0) {
+            removePlayerDataFromMatrix(player);
+            switch (movement) {
+                case UP:
+                    if (player.y() < (height - 1) && occupationMatrix[player.y() + 1][player.x()] == 0) {
+                        player.up();
+                    }
+                    break;
+                case DOWN:
+                    if (player.y() > 0 && occupationMatrix[player.y() - 1][player.x()] == 0) {
+                        player.down();
+                    }
+                    break;
+                case LEFT:
+                    if (player.x() > 0 && occupationMatrix[player.y()][player.x() - 1] == 0) {
+                        player.left();
+                    }
+                    break;
+                case RIGHT:
+                    if (player.x() < (width - 1) && occupationMatrix[player.y()][player.x() + 1] == 0) {
+                        player.right();
+                    }
+                    break;
+                case JUMP:
+                    //TODO
+                    break;
+                case MAGNET:
+                    //TODO
+                    break;
+            }
+            addPlayerDataToMatrix(player);
         }
-        addPlayerDataToMatrix(player);
     }
 
     public void removePlayerDataFromMatrix(Player player) {
@@ -146,10 +153,14 @@ public class GameBoard {
         gameBoard.setBars(gameBoard.generateDimensionsAndBars());
         gameBoard.setPlayers(gameBoard.generatePlayers());
         gameBoard.printElements();
-        gameBoard.movePlayer(gameBoard.getPlayers().get(0).getId(), Movement.UP);
-        gameBoard.movePlayer(gameBoard.getPlayers().get(0).getId(), Movement.UP);
-        gameBoard.movePlayer(gameBoard.getPlayers().get(0).getId(), Movement.UP);
-        gameBoard.movePlayer(gameBoard.getPlayers().get(0).getId(), Movement.UP);
+        gameBoard.movePlayer(gameBoard.getPlayers().get(0).getId(), Movement.UP, 3);
+        gameBoard.movePlayer(gameBoard.getPlayers().get(0).getId(), Movement.RIGHT, 4);
+        gameBoard.movePlayer(gameBoard.getPlayers().get(0).getId(), Movement.DOWN, 2);
+        gameBoard.movePlayer(gameBoard.getPlayers().get(0).getId(), Movement.RIGHT, 4);
+        gameBoard.printElements();
+
+        gameBoard.movePlayer(gameBoard.getPlayers().get(1).getId(), Movement.LEFT, 4);
+        gameBoard.movePlayer(gameBoard.getPlayers().get(1).getId(), Movement.UP, 6);
         gameBoard.printElements();
     }
 
