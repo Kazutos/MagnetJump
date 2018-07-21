@@ -36,6 +36,11 @@ public class Coordinates {
     }
 
     @Override
+    public int hashCode() {
+        return 73 * x * y;
+    }
+
+    @Override
     public String toString() {
         return String.format("(%d, %d)", x, y);
     }

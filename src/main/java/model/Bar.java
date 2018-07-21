@@ -1,5 +1,7 @@
 package model;
 
+import static model.BarPosition.VERTICAL;
+
 public class Bar {
     private Coordinates initial;
     private int size;
@@ -21,17 +23,14 @@ public class Bar {
         this.units = new Coordinates[size];
         units[0] = initial;
 
-        switch (position) {
-            case VERTICAL:
-                for (int i = 1; i < size; i++) {
-                    units[i] = new Coordinates(initial.x(), initial.y() + i);
-                }
-                break;
-            case HORIZONTAL:
-                for (int i = 1; i < size; i++) {
-                    units[i] = new Coordinates(initial.x() + i, initial.y());
-                }
-                break;
+        if (VERTICAL.equals(position)) {
+            for (int i = 1; i < size; i++) {
+                units[i] = new Coordinates(initial.x(), initial.y() + i);
+            }
+        } else {
+            for (int i = 1; i < size; i++) {
+                units[i] = new Coordinates(initial.x() + i, initial.y());
+            }
         }
     }
 
