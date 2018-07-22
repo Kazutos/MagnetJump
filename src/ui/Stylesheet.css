@@ -1,0 +1,28 @@
+.gameField {
+    -fx-background-color: white;
+    -fx-border-style: solid;
+    -fx-border-color: lightgray;
+}
+
+.startPage {
+    -fx-background-color: white;
+}
+
+
+.startBtn {
+    -fx-padding: 1em;
+    -fx-border-style: solid;
+    -fx-border-color: dodgerblue;
+    -fx-background-color: white;
+    -fx-background-radius: 1em;
+    -fx-border-radius: 1em;
+
+    -fx-text-fill: dodgerblue;
+    -fx-min-width: 200px;
+}
+
+.startBtn:hover {
+    -fx-background-color: dodgerblue;
+    -fx-border-style: transparent;
+    -fx-text-fill: white;
+}
