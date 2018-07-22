@@ -6,6 +6,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -50,7 +52,13 @@ public class Server {
                         // Send the AJAX controller file to the player //
                         String ajaxFile = new String(Files.readAllBytes(Paths.get("ajax.html")));
                         
-                        String resp = "HTTP/1.1 200 OK\r\nContent-Type: text/html; charset=utf-8\r\n\r\nHi, You are player #" + i + "\n\n\n" + ajaxFile;
+                        String resp_temp = "HTTP/1.1 200 OK\r\nContent-Type: text/html; charset=utf-8\r\n\r\nHi, You are player #" + i + "\n\n\n" + ajaxFile;
+                        String resp = "";
+                        
+                        if (i==1) resp = resp_temp.replace("PLAYERBACKGROUNDCOLOR", "#ff0000");
+                        if (i==2) resp = resp_temp.replace("PLAYERBACKGROUNDCOLOR", "#00ff00");
+                        if (i==3) resp = resp_temp.replace("PLAYERBACKGROUNDCOLOR", "#0000ff");
+                        if (i==4) resp = resp_temp.replace("PLAYERBACKGROUNDCOLOR", "#eeeeee");
                         
                         p1_out.print(resp);
                         p1_out.close();
@@ -69,36 +77,81 @@ public class Server {
                 ServerSocket controlsSocket = new ServerSocket(8080);
                 
                 while (true) {
-                    // One of the players connects to the server //
                     Socket client = controlsSocket.accept();
-                    BufferedReader client_rd = new BufferedReader(new InputStreamReader(client.getInputStream()));
-                    PrintWriter client_wr = new PrintWriter(client.getOutputStream(), true);
-                    
-                    String temp = client_rd.readLine();
-                    client_wr.println("HTTP/1.1 200 OK\r\nContent-Length: 3\r\nContent-Type: text/plain\r\n\r\nSUP");
-                    while (temp != null) {
-                        if (temp.startsWith("GET")) break;
-                        if (temp.startsWith("control")) {
-                            for (int i = 0; i < 4; i++) {
-                                if (client.getInetAddress().toString().equals(players[i])) {
-                                    int playerNum = i+1;
-                                    System.out.print("Player " + playerNum + " sent ");
-                                }
-                            }
-                            System.out.println(temp);
-                            
-                        }
-                        
-                        temp = client_rd.readLine();
-                    }
-                        
-                    client_wr.close();
-                    client_rd.close();
-                    client.close();
+                    new Thread(new InputThread("t",client,players)).start();
                 }
+                
             } catch (IOException e) {
                 System.out.println("ERROR: " + e.getMessage());
             }
     }
     
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class InputThread implements Runnable {
+    private Thread t;
+    private String threadName;
+    public Socket client;
+    public String[] players;
+    
+    InputThread(String name, Socket c, String[] players) {
+      threadName = name;
+      client = c;
+      this.players = players;
+   }
+   
+   public void run() {
+            try {
+                BufferedReader client_rd = new BufferedReader(new InputStreamReader(client.getInputStream()));
+                PrintWriter client_wr = new PrintWriter(client.getOutputStream(), true);
+
+                String temp = client_rd.readLine();
+                client_wr.println("HTTP/1.1 200 OK\r\nContent-Length: 38\r\nContent-Type: text/plain\r\n\r\nGame already going, sorry, you're late");
+                while (temp != null) {
+                    if (temp.startsWith("GET")) break;
+                    if (temp.startsWith("control")) {
+                        for (int i = 0; i < 4; i++) {
+                            if (client.getInetAddress().toString().equals(players[i])) {
+                                int playerNum = i+1;
+                                System.out.print("Player " + playerNum + " sent ");
+                            }
+                        }
+                        System.out.println(temp);
+
+                    }
+
+                    temp = client_rd.readLine();
+                }
+
+                client_wr.close();
+                client_rd.close();
+                client.close();
+            } catch (IOException ex) {
+                Logger.getLogger(InputThread.class.getName()).log(Level.SEVERE, null, ex);
+            }
+      
+      
+
+}
+   
+   public void start () {
+      if (t == null) {
+         t = new Thread (this, threadName);
+         t.start();
+      }
+   }
 }
