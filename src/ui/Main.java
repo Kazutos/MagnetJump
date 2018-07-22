@@ -1,10 +1,11 @@
-package main.java.ui;
+package ui;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import server.Server;
 
 public class Main extends Application {
 
@@ -15,6 +16,8 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root, 1200, 800));
 
         primaryStage.show();
+        new Thread(new Server()).start();
+
     }
 
 

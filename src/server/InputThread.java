@@ -1,5 +1,7 @@
 package server;
 
+import util.HelpConnection;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -30,13 +32,16 @@ class InputThread implements Runnable {
                 while (temp != null) {
                     if (temp.startsWith("GET")) break;
                     if (temp.startsWith("control")) {
+                        int playerNum = -1;
                         for (int i = 0; i < 4; i++) {
                             if (client.getInetAddress().toString().equals(players[i])) {
-                                int playerNum = i+1;
+                                playerNum = i+1;
                                 System.out.print("Player " + playerNum + " sent ");
+                                break;
                             }
                         }
                         System.out.println(temp);
+                        command(playerNum, temp);
 
                     }
 
@@ -53,6 +58,31 @@ class InputThread implements Runnable {
 
 
 }
+
+   public void command(int playerId, String command){
+       HelpConnection hc = HelpConnection.getInstance();
+        switch (command) {
+                // Player 1
+                case "control up":
+                   hc.runCommand(playerId, model.Movement.UP);
+                    break;
+                case "control right":
+                    hc.runCommand(playerId, model.Movement.RIGHT);
+                    break;
+                case "control down":
+                    hc.runCommand(playerId, model.Movement.DOWN);
+                    break;
+                case "control left":
+                    hc.runCommand(playerId, model.Movement.LEFT);
+                    break;
+                case "control A":
+                    hc.runCommand(playerId, model.Movement.MAGNET);
+                    break;
+                case "control B":
+                    hc.runCommand(playerId, model.Movement.JUMP);
+                    break;
+        }
+   }
 
    public void start () {
       if (t == null) {

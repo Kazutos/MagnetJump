@@ -44,13 +44,28 @@ public class MovementDemo {
         gfs.setStone(0,3, false, false, false, false);
         gfs.setStone(1,3, false, false, false, false);
         gfs.setStone(2,3, false, false, false, false);
-        gfs.setStone(5,2, false, false, false, false);
+        gfs.setStone(5,2, true, false, false, true);
         gfs.setStone(6,2, false, false, false, false);
         gfs.setStone(7,2, false, false, false, false);
         gfs.setStone(4,5, false, true, false, false);
         gfs.setStone(5,5, false, true, false, false);
         gfs.setStone(3,5, false, true, false, false);
-        gfs.setCoin(7, 3 );
+        gfs.setStone(2,5, false, true, false, false);
+
+        //Vertikale
+        gfs.setStone(6,7, false, false, false, true);
+        gfs.setStone(6,8, false, false, false, true);
+        gfs.setStone(6,9, false, false, false, true);
+        gfs.setStone(6,10, true, false, false, true);
+        // horizontale
+        gfs.setStone(7,10, false, false, false, false);
+        gfs.setStone(8,10, false, false, false, false);
+        gfs.setStone(9,10, false, false, false, false);
+        gfs.setStone(10,10, false, false, false, false);
+        gfs.setStone(11,10, false, false, false, false);
+
+
+        gfs.setCoin(12, 11 );
         gfs.setPlayer(1, 1, Color.BLUE);
         gfs.setPlayer(3, 1, Color.GREEN);
         gfs.createField();

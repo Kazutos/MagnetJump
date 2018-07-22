@@ -1,13 +1,17 @@
 package ui;
 
 import demo.MovementDemo;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import server.Server;
+import util.Command;
 import util.GameFieldState;
+import util.HelpConnection;
 
 import java.io.IOException;
 
@@ -36,9 +40,11 @@ public class MainController {
 
         kep = new SimpleObjectProperty<>();
         MovementDemo demo = new MovementDemo(gameFieldState);
-        gamePane.getScene().setOnKeyPressed(event1 -> demo.onKeyPressed(event1));
+        // gamePane.getScene().setOnKeyPressed(event1 -> demo.onKeyPressed(event1));
         demo.start();
+        HelpConnection.getInstance().setGameFieldState(gameFieldState);
 
+        refresh();
 
     }
 
@@ -46,6 +52,15 @@ public class MainController {
         // Just switch the pane
         goToPlaymode();
         // TODO:
+    }
+
+    public void refresh(){
+        Command tmp = HelpConnection.getInstance().pullCommand();
+        if(tmp != null){
+            gameFieldState.move(tmp.getPlayerId(), tmp.getMovement());
+            gameFieldState.endPhase();
+        }
+        Platform.runLater(() -> refresh());
     }
 
 

@@ -1,6 +1,5 @@
 package server;
 
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -16,7 +15,7 @@ import java.util.logging.Logger;
  *
  * @author basil
  */
-public class Server {
+public class Server implements Runnable {
 
     /**
      * @param args the command line arguments
@@ -88,5 +87,28 @@ public class Server {
                 System.out.println("ERROR: " + e.getMessage());
             }
     }
-    
+
+    @Override
+    public void run() {
+        try {
+            main(null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
