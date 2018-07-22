@@ -17,8 +17,9 @@ import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import javafx.scene.image.ImageView;
 
-import util.Movement;
+
 import java.util.LinkedList;
+import model.Movement;
 
 public class GameFieldController {
     // Attribute

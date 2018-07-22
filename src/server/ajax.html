@@ -13,6 +13,12 @@ body {background-color: #eeeeee;}
 #right {font-size: 7em; font-weight: bold; border-radius: 1.5em}
 #A {font-size: 7em; font-weight: bold; border-radius: 3.0em; background-color:#bf0000;}
 #B {font-size: 7em; font-weight: bold; border-radius: 3.0em; background-color: #009bd6;}
+
+.center{
+    width: 50%;
+    margin: auto;
+}
+
 </style>
 
 
@@ -28,7 +34,7 @@ $(document).ready(function(){
 
     $("#left").click(function(){
         $.ajax({
-            url: "http://10.4.233.53:8080",
+            url: "",
             type: "POST",
             headers: {
                     'Access-Control-Allow-Origin': '*'
@@ -43,7 +49,7 @@ $(document).ready(function(){
 
     $("#right").click(function(){
                 $.ajax({
-            url: "http://10.4.233.53:8080",
+            url: "",
             type: "POST",
             headers: {
                     'Access-Control-Allow-Origin': '*'
@@ -58,7 +64,7 @@ $(document).ready(function(){
 
     $("#up").click(function(){
                 $.ajax({
-            url: "http://10.4.233.53:8080",
+            url: "",
             type: "POST",
             headers: {
                     'Access-Control-Allow-Origin': '*'
@@ -73,7 +79,7 @@ $(document).ready(function(){
 
     $("#down").click(function(){
         $.ajax({
-            url: "http://10.4.233.53:8080",
+            url: "",
             type: "POST",
             headers: {
                     'Access-Control-Allow-Origin': '*'
@@ -90,7 +96,7 @@ $(document).ready(function(){
 
     $("#A").click(function(){
         $.ajax({
-            url: "http://10.4.233.53:8080",
+            url: "",
             type: "POST",
             headers: {
                     'Access-Control-Allow-Origin': '*'
@@ -107,7 +113,7 @@ $(document).ready(function(){
 
     $("#B").click(function(){
         $.ajax({
-            url: "http://10.4.233.53:8080",
+            url: "",
             type: "POST",
             headers: {
                     'Access-Control-Allow-Origin': '*'
@@ -120,6 +126,16 @@ $(document).ready(function(){
             }
         });
     });
+
+    var gpResize = function() {
+      // This will execute whenever the window is resized
+      console.log("Height: " + $(window).height()); // New height
+      console.log("Width: " + $(window).width()); // New width
+
+    }
+
+    $(document).ready(gpResize());
+    $(window).resize(gpResize());
 });
 </script>
 </head>
@@ -136,24 +152,26 @@ $(document).ready(function(){
 
 
 
-<body>
+<body class="center">
+    <div class="">
+        <div class="playerColor">B</div>
 
-<div class="playerColor">B</div>
+            <table>
+            <tr>
+            <td></td>
+            <td><button id="up">&nbsp;&#8673;&nbsp;</button></td>
+            <td></td>
+            <td><button id="A">&nbsp;A&nbsp;</button></td>
+            </tr>
 
-<table>
-<tr>
-<td></td>
-<td><button id="up">&nbsp;&#8673;&nbsp;</button></td>
-<td></td>
-<td><button id="A">&nbsp;A&nbsp;</button></td>
-</tr>
-
-<tr>
-<td><button id="left">&#8672;</button></td>
-<td><button id="down">&nbsp;&#8675;&nbsp;</button></td>
-<td><button id="right">&#8674;</button></td>
-<td><button id="B">&nbsp;B&nbsp;</button></td>
-</tr>
+            <tr>
+            <td><button id="left">&#8672;</button></td>
+            <td><button id="down">&nbsp;&#8675;&nbsp;</button></td>
+            <td><button id="right">&#8674;</button></td>
+            <td><button id="B">&nbsp;B&nbsp;</button></td>
+            </tr>
+        </div>
+    </div>
 
 
 </body>

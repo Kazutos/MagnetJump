@@ -7,6 +7,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import ui.GameFieldController;
+import model.Movement;
 
 public class GameFieldState implements Field, PlayerControl, State {
     // Attribute
