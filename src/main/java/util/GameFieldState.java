@@ -2,7 +2,7 @@ package util;
 
 import interfaces.Field;
 import interfaces.PlayerControl;
-import interfaces.State;
+import demo.State;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;

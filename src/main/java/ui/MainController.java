@@ -8,7 +8,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import server.Server;
+import model.GameBoard;
+import model.GameEngine;
 import util.Command;
 import util.GameFieldState;
 import util.HelpConnection;
@@ -30,17 +31,15 @@ public class MainController {
 
 
     // Action methods
-    public void play(ActionEvent event){
+    public void play(ActionEvent event) {
         // Just switch the pane
         goToPlaymode();
-        // TODO:
 
         // GamePane
         gameFieldState = loadGameField();
 
         kep = new SimpleObjectProperty<>();
         MovementDemo demo = new MovementDemo(gameFieldState);
-        // gamePane.getScene().setOnKeyPressed(event1 -> demo.onKeyPressed(event1));
         demo.start();
         HelpConnection.getInstance().setGameFieldState(gameFieldState);
 
@@ -48,15 +47,14 @@ public class MainController {
 
     }
 
-    public void playVsMode(ActionEvent event){
+    public void playVsMode(ActionEvent event) {
         // Just switch the pane
         goToPlaymode();
-        // TODO:
     }
 
-    public void refresh(){
+    public void refresh() {
         Command tmp = HelpConnection.getInstance().pullCommand();
-        if(tmp != null){
+        if (tmp != null) {
             gameFieldState.move(tmp.getPlayerId(), tmp.getMovement());
             gameFieldState.endPhase();
         }
@@ -64,16 +62,17 @@ public class MainController {
     }
 
 
-
-
     // Help Method
-    public GameFieldState loadGameField(){
+    public GameFieldState loadGameField() {
         AnchorPane gameField = null;
         GameFieldState gameFieldState = null;
+        GameBoard gameBoard = new GameBoard();
+        GameEngine engine = new GameEngine(gameBoard);
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("gameField.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/gameField.fxml"));
             gameField = loader.load();
-            GameFieldController gfc = ((GameFieldController) loader.getController());
+            GameFieldController gfc = loader.getController();
+            gfc.setEngine(engine);
             gfc.init();
             gameFieldState = new GameFieldState(gfc);
 
@@ -89,12 +88,8 @@ public class MainController {
     }
 
 
-
-
-
-
     // Help Method
-    private void goToPlaymode(){
+    private void goToPlaymode() {
         startPane.setVisible(false);
         gamePane.setVisible(true);
     }
