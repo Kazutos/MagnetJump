@@ -6,6 +6,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
@@ -14,6 +15,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.util.Duration;
 import javafx.scene.image.ImageView;
 
@@ -184,10 +186,20 @@ public class GameFieldController {
                     tt.setByX(tmpWidth);
                     break;
                 case MAGNET:
+                    Label lbl = new Label(" You Won!!! :D");
+                    lbl.setFont(Font.font(50));
+                    lbl.setLayoutX(screenWidth/2);
+                    lbl.setLayoutY(screenHeight/2);
+                    lbl.setStyle("-fx-text-fill: green");
+                    mainPane.getChildren().add(lbl);
                     break;
                 case JUMP:
-                    tt = new TranslateTransition(duration, player);
-                    tt.setByY(-tmpHeight);
+                    Label lbl1 = new Label(" You Lose!!!");
+                    lbl1.setFont(Font.font(50));
+                    lbl1.setStyle("-fx-text-fill: red");
+                    lbl1.setLayoutX(screenWidth/2);
+                    lbl1.setLayoutY(screenHeight/2);
+                    mainPane.getChildren().add(lbl1);
                     break;
                 case FALL:
                     tt = new TranslateTransition(duration, player);
