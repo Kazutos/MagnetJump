@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' />
+
+
+<style>
+body {background-color: #eeeeee;}
+.playerColor {background-color: PLAYERBACKGROUNDCOLOR;}
+#up {font-size: 7em; font-weight: bold; border-radius: 1.5em}
+#down {font-size: 7em; font-weight: bold; border-radius: 1.5em}
+#left {font-size: 7em; font-weight: bold; border-radius: 1.5em}
+#right {font-size: 7em; font-weight: bold; border-radius: 1.5em}
+#A {font-size: 7em; font-weight: bold; border-radius: 3.0em; background-color:#bf0000;}
+#B {font-size: 7em; font-weight: bold; border-radius: 3.0em; background-color: #009bd6;}
+</style>
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+$(document).on('touchmove', function(e) {
+    e.preventDefault();
+});
+
+$(document).ready(function(){
+
+    $("#left").click(function(){
+        $.ajax({
+            url: "http://10.4.233.53:8080",
+            type: "POST",
+            headers: {
+                    'Access-Control-Allow-Origin': '*'
+            },
+            data: "control left",
+            success: function (response) {},
+            error: function(xhr, ajaxOptions, thrownError){
+                    alert(xhr.responseText);
+            }
+        });
+    });
+
+    $("#right").click(function(){
+                $.ajax({
+            url: "http://10.4.233.53:8080",
+            type: "POST",
+            headers: {
+                    'Access-Control-Allow-Origin': '*'
+            },
+            data: "control right",
+            success: function (response) {},
+            error: function(xhr, ajaxOptions, thrownError){
+                    alert(xhr.responseText);
+            }
+        });
+    });
+
+    $("#up").click(function(){
+                $.ajax({
+            url: "http://10.4.233.53:8080",
+            type: "POST",
+            headers: {
+                    'Access-Control-Allow-Origin': '*'
+            },
+            data: "control up",
+            success: function (response) {},
+            error: function(xhr, ajaxOptions, thrownError){
+                    alert(xhr.responseText);
+            }
+        });
+    });
+
+    $("#down").click(function(){
+        $.ajax({
+            url: "http://10.4.233.53:8080",
+            type: "POST",
+            headers: {
+                    'Access-Control-Allow-Origin': '*'
+            },
+            data: "control down",
+            dataType: "text",
+            success: function (response) {},
+            error: function(xhr, ajaxOptions, thrownError){
+                    alert(xhr.responseText);
+            }
+        });
+    });
+
+
+    $("#A").click(function(){
+        $.ajax({
+            url: "http://10.4.233.53:8080",
+            type: "POST",
+            headers: {
+                    'Access-Control-Allow-Origin': '*'
+            },
+            data: "control A",
+            dataType: "text",
+            success: function (response) {},
+            error: function(xhr, ajaxOptions, thrownError){
+                    alert(xhr.responseText);
+            }
+        });
+    });
+
+
+    $("#B").click(function(){
+        $.ajax({
+            url: "http://10.4.233.53:8080",
+            type: "POST",
+            headers: {
+                    'Access-Control-Allow-Origin': '*'
+            },
+            data: "control B",
+            dataType: "text",
+            success: function (response) {},
+            error: function(xhr, ajaxOptions, thrownError){
+                    alert(xhr.responseText);
+            }
+        });
+    });
+});
+</script>
+</head>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<body>
+
+<div class="playerColor">B</div>
+
+<table>
+<tr>
+<td></td>
+<td><button id="up">&nbsp;&#8673;&nbsp;</button></td>
+<td></td>
+<td><button id="A">&nbsp;A&nbsp;</button></td>
+</tr>
+
+<tr>
+<td><button id="left">&#8672;</button></td>
+<td><button id="down">&nbsp;&#8675;&nbsp;</button></td>
+<td><button id="right">&#8674;</button></td>
+<td><button id="B">&nbsp;B&nbsp;</button></td>
+</tr>
+
+
+</body>
+</html>
